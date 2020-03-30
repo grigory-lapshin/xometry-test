@@ -1,9 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Listings from "./Listings";
+
+import { StoreContext } from "storeon/react";
+import { store } from "./store";
 
 const App = () => (
   <div className="App">
-    <h1 className="App-Title">Hello Parcel x React</h1>
+    <StoreContext.Provider value={store}>
+      <Listings />
+    </StoreContext.Provider>
   </div>
 );
 

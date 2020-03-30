@@ -9,10 +9,12 @@
     "build": "parcel build index.html --no-minify --public-url /"
   },
   "devDependencies": {
+    "flow-bin": "^0.121.0",
     "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "storeon": "^2.0.2"
   }
 }
