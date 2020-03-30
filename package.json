@@ -1,0 +1,7 @@
+{
+  "name": "xometry-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Grigoriy Lapshin <g.lapshin@rocketguys.com>",
+  "license": "MIT"
+}
