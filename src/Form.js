@@ -10,7 +10,7 @@ Modal.setAppElement("#root");
 
 function ImageInput({ setFieldValue, handleFiles, listing }) {
   useEffect(() => {
-    if (listing) handleFiles(listing.picture);
+    if (listing?.picture) handleFiles(listing.picture);
   }, []);
   return (
     <>
@@ -69,9 +69,9 @@ function ListingForm() {
   }
 
   function validatePrice(price) {
-    if (!price) return "Required";
-    if (isNaN(parseInt(price))) return "Price must be a number!";
-    if (parseInt(price) <= 0) return "Price must be positive";
+    // if (!price) return "Required";
+    // if (isNaN(parseInt(price))) return "Price must be a number!";
+    // if (parseInt(price) <= 0) return "Price must be positive";
   }
 
   function handleFiles(file) {
