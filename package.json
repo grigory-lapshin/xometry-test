@@ -13,6 +13,7 @@
     "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
+    "nanoid": "^3.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "storeon": "^2.0.2"

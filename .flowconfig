@@ -2,7 +2,9 @@
 <PROJECT_ROOT>/node_modules/.*
 [include]
 src
+
 [libs]
+<PROJECT_ROOT>/flow-typed/.*
 
 [lints]
 

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Listings from "./Listings";
+import Listings from "./ListingsList";
 
 import { StoreContext } from "storeon/react";
 import { store } from "./store";
