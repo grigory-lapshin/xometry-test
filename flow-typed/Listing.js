@@ -8,3 +8,5 @@ declare type Listing = {
   createdAt: number,
   updatedAt: number
 };
+
+declare type ListingMap = { [id: string]: Listing };
