@@ -1,18 +1,23 @@
 import { createStoreon } from "storeon";
 import { storeonDevtools } from "storeon/devtools";
 
+import { nanoid } from "nanoid";
+
 let listings = store => {
   store.on("@init", () => ({
     ids: [],
     listingsMap: {}
   }));
-  store.on("create", ({ ids, listingsMap }, listing) => ({
-    ids: [...ids, listing.id],
-    listingsMap: {
-      ...listingsMap,
-      [listing.id]: { ...listing, createdAt: Date.now() }
-    }
-  }));
+  store.on("create", ({ ids, listingsMap }, listing) => {
+    const id = nanoid();
+    return {
+      ids: [...ids, id],
+      listingsMap: {
+        ...listingsMap,
+        [id]: { ...listing, id, createdAt: Date.now() }
+      }
+    };
+  });
   store.on("delete", ({ ids, listingsMap }, id) => ({
     ids: [...ids.filter(i => i !== id)],
     listingsMap: { ...listingsMap, [id]: undefined }
