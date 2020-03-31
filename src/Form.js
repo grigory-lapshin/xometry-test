@@ -8,6 +8,27 @@ import { useStoreon } from "storeon/react";
 
 Modal.setAppElement("#root");
 
+function ImageInput({ setFieldValue, handleFiles, listing }) {
+  useEffect(() => {
+    if (listing) handleFiles(listing.picture);
+  }, []);
+  return (
+    <>
+      <input
+        id="file"
+        name="picture"
+        type="file"
+        accept="image/png, image/jpeg"
+        onChange={event => {
+          setFieldValue("picture", event.currentTarget.files[0]);
+          handleFiles(event.currentTarget.files[0]);
+        }}
+      />
+      <div id="preview" />
+    </>
+  );
+}
+
 function ListingForm() {
   const { dispatch, listingsMap, idToEdit } = useStoreon(
     "listingsMap",
@@ -53,11 +74,27 @@ function ListingForm() {
     if (parseInt(price) <= 0) return "Price must be positive";
   }
 
+  function handleFiles(file) {
+    const preview = document.getElementById("preview");
+
+    if (!preview) return;
+
+    preview.innerHTML = "";
+    const img = document.createElement("img");
+    const src = URL.createObjectURL(file);
+    img.src = src;
+    img.height = 60;
+    img.onload = function() {
+      URL.revokeObjectURL(src);
+    };
+    preview.appendChild(img);
+  }
+
   return (
     <>
       <button onClick={openForm}>create</button>
       <Modal isOpen={isModalOpen} contentLabel="Example Modal">
-        <button onClick={() => setIsModalOpen(false)}>close</button>
+        <button onClick={closeForm}>close</button>
         <Formik
           initialValues={
             idToEdit === null
@@ -70,7 +107,7 @@ function ListingForm() {
             closeForm();
           }}
         >
-          {({ errors, touched, isSubmitting }) => (
+          {({ errors, touched, setFieldValue }) => (
             <Form>
               <Field name="title" validate={validateTitle} />
               {errors.title && touched.title && errors.title}
@@ -78,6 +115,11 @@ function ListingForm() {
               {errors.description && touched.description && errors.description}
               <Field type="number" name="price" validate={validatePrice} />
               {errors.price && touched.price && errors.price}
+              <ImageInput
+                setFieldValue={setFieldValue}
+                handleFiles={handleFiles}
+                listing={listingsMap[idToEdit]}
+              />
               <button type="submit">Save</button>
             </Form>
           )}

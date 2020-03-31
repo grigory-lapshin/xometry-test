@@ -11,7 +11,7 @@ type Props = {
 
 function SingleListing(props: Props) {
   const {
-    listing: { id, title, description, imageURL, price, createdAt, updatedAt }
+    listing: { id, title, description, picture, price, createdAt, updatedAt }
   } = props;
 
   const { dispatch } = useStoreon("idToEdit");
@@ -26,7 +26,7 @@ function SingleListing(props: Props) {
 
   return (
     <div>
-      <span>{`${id}-${title}-${description}-${imageURL}-${price}-${createdAt}-${updatedAt}`}</span>
+      <span>{`${id}-${title}-${description}-${picture}-${price}-${createdAt}-${updatedAt}`}</span>
       <button onClick={editListing}>edit</button>
       <button onClick={deleteListing}>delete</button>
     </div>
