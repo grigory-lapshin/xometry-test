@@ -14,6 +14,12 @@ function createPagesArray(ids) {
   });
 }
 
+function mapSortingOrderToDispatch(sortingOrder) {
+  const type = sortingOrder.slice(0, -1);
+  const direction = sortingOrder.slice(-1);
+  return [type, direction];
+}
+
 function ListingsList() {
   const {
     dispatch,
@@ -44,12 +50,27 @@ function ListingsList() {
     setListings(() => createListingsArray());
   }, [ids, selectedPage]);
 
+  function onSortingChange(event) {
+    const sortingOrder = event.target.value;
+    const [type, direction] = mapSortingOrderToDispatch(sortingOrder);
+    console.log("[type, direction]", mapSortingOrderToDispatch(sortingOrder));
+    dispatch(type, direction);
+  }
+
   return (
     <div>
       <span>Listings</span>
-      <button onClick={() => dispatch("sortByPrice")}>sort dy price</button>
+      {/* <button onClick={() => dispatch("sortByPrice")}>sort dy price</button>
       <button onClick={() => dispatch("sortByUpdated")}>sortByUpdated</button>
-      <button onClick={() => dispatch("sortByCreated")}>sortByCreated</button>
+      <button onClick={() => dispatch("sortByCreated")}>sortByCreated</button> */}
+      <select name="byPrice" onChange={onSortingChange}>
+        <option value="sortByCreated↑">show new first</option>
+        <option value="sortByCreated↓">show old first</option>
+        <option value="sortByPrice↑">show dy price ↑</option>
+        <option value="sortByPrice↓">show dy price ↓</option>
+        <option value="sortByUpdated↑">show recently updated first</option>
+        <option value="sortByCreated↓">show lately updated first</option>
+      </select>
       <br />
       <br />
       <div>

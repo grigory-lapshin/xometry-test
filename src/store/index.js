@@ -3,6 +3,10 @@ import { storeonDevtools } from "storeon/devtools";
 
 import { nanoid } from "nanoid";
 
+function sortWithDirection(direction, l, r) {
+  return direction === "↑" ? l < r : l > r;
+}
+
 let listings = store => {
   store.on("@init", () => ({
     ids: [],
@@ -32,25 +36,36 @@ let listings = store => {
       }
     }
   }));
-  store.on("sortByPrice", ({ ids, listingsMap }) => ({
+  store.on("sortByPrice", ({ ids, listingsMap }, direction) => ({
     ids: [
-      ...ids.sort((idl, idr) => listingsMap[idl].price - listingsMap[idr].price)
+      ...ids.sort((idl, idr) =>
+        sortWithDirection(
+          direction,
+          listingsMap[idl].price,
+          listingsMap[idr].price
+        )
+      )
     ]
   }));
-  store.on("sortByCreated", ({ ids, listingsMap }) => ({
+  store.on("sortByCreated", ({ ids, listingsMap }, direction) => ({
     ids: [
-      ...ids.sort(
-        (idl, idr) => listingsMap[idl].createdAt - listingsMap[idr].createdAt
+      ...ids.sort((idl, idr) =>
+        sortWithDirection(
+          direction,
+          listingsMap[idl].createdAt,
+          listingsMap[idr].createdAt
+        )
       )
     ]
   }));
   store.on("sortByUpdated", ({ ids, listingsMap }) => ({
     ids: [
-      ...ids.sort(
-        (idl, idr) =>
-          listingsMap[idl]?.updatedAt ??
-          listingsMap[idl].createdAt - listingsMap[idr]?.updatedAt ??
-          listingsMap[idr].createdAt
+      ...ids.sort((idl, idr) =>
+        sortWithDirection(
+          direction,
+          listingsMap[idl]?.updatedAt ?? listingsMap[idl].createdAt,
+          listingsMap[idr]?.updatedAt ?? listingsMap[idr].createdAt
+        )
       )
     ]
   }));
