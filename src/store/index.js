@@ -11,7 +11,7 @@ let listings = store => {
   store.on("create", ({ ids, listingsMap }, listing) => {
     const id = nanoid();
     return {
-      ids: [...ids, id],
+      ids: [id, ...ids],
       listingsMap: {
         ...listingsMap,
         [id]: { ...listing, id, createdAt: Date.now() }
