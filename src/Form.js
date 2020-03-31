@@ -3,12 +3,12 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import Modal from "react-modal";
-import { Formik } from "formik";
+import { Formik, Form, Field } from "formik";
 import { useStoreon } from "storeon/react";
 
 Modal.setAppElement("#root");
 
-function Form() {
+function ListingForm() {
   const { dispatch, listingsMap, idToEdit } = useStoreon(
     "listingsMap",
     "idToEdit"
@@ -37,18 +37,20 @@ function Form() {
     setIsModalOpen(true);
   }
 
-  function validate(values) {
-    const errors = {};
-    if (!values.title) {
-      errors.title = "Required";
-    }
-    if (!values.description) {
-      errors.description = "Required";
-    }
-    if (isNaN(parseInt(values.price))) {
-      errors.price = "Required";
-    }
-    return errors;
+  function validateTitle(title) {
+    if (!title) return "Required";
+    if (title?.length <= 1) return "Too short!";
+    if (title?.length >= 256) return "Too long!";
+  }
+
+  function validateDescription(description) {
+    if (!!description && description?.length >= 512) return "Too long!";
+  }
+
+  function validatePrice(price) {
+    if (!price) return "Required";
+    if (isNaN(parseInt(price))) return "Price must be a number!";
+    if (parseInt(price) <= 0) return "Price must be positive";
   }
 
   return (
@@ -62,54 +64,22 @@ function Form() {
               ? { title: "", description: "", price: "" }
               : { ...listingsMap[idToEdit] }
           }
-          validate={validate}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={values => {
             if (idToEdit === null) create(values);
-            if (idToEdit !== null) update(values);
-
-            setSubmitting(false);
+            else if (idToEdit !== null) update(values);
             closeForm();
           }}
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting
-            /* and other goodies */
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                name="title"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.title}
-              />
+          {({ errors, touched, isSubmitting }) => (
+            <Form>
+              <Field name="title" validate={validateTitle} />
               {errors.title && touched.title && errors.title}
-              <input
-                type="text"
-                name="description"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.description}
-              />
+              <Field name="description" validate={validateDescription} />
               {errors.description && touched.description && errors.description}
-              <input
-                type="number"
-                name="price"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.price}
-              />
+              <Field type="number" name="price" validate={validatePrice} />
               {errors.price && touched.price && errors.price}
-              <button type="submit" disabled={isSubmitting}>
-                Save
-              </button>
-            </form>
+              <button type="submit">Save</button>
+            </Form>
           )}
         </Formik>
       </Modal>
@@ -117,4 +87,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default ListingForm;

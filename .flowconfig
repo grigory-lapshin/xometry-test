@@ -11,5 +11,6 @@ src
 [options]
 ; module.name_mapper='^storeon\/\(.*\)$' -> '<PROJECT_ROOT>/node_modules/storeon/\1'
 ; module.name_mapper='\(.*\)$' -> '<PROJECT_ROOT>/node_modules/\1'
+esproposal.optional_chaining=enable
 
 [strict]
