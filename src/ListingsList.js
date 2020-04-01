@@ -48,43 +48,54 @@ function ListingsList() {
   useEffect(() => {
     setPages(() => createPagesArray(ids));
     setListings(() => createListingsArray());
-  }, [ids, selectedPage]);
+  }, [ids, selectedPage, listingsMap]);
 
   function onSortingChange(event) {
     const sortingOrder = event.target.value;
     const [type, direction] = mapSortingOrderToDispatch(sortingOrder);
-    console.log("[type, direction]", mapSortingOrderToDispatch(sortingOrder));
     dispatch(type, direction);
   }
 
   return (
-    <div>
-      <span>Listings</span>
-      {/* <button onClick={() => dispatch("sortByPrice")}>sort dy price</button>
-      <button onClick={() => dispatch("sortByUpdated")}>sortByUpdated</button>
-      <button onClick={() => dispatch("sortByCreated")}>sortByCreated</button> */}
-      <select name="byPrice" onChange={onSortingChange}>
-        <option value="sortByCreated↑">show new first</option>
-        <option value="sortByCreated↓">show old first</option>
-        <option value="sortByPrice↑">show dy price ↑</option>
-        <option value="sortByPrice↓">show dy price ↓</option>
-        <option value="sortByUpdated↑">show recently updated first</option>
-        <option value="sortByCreated↓">show lately updated first</option>
-      </select>
-      <br />
-      <br />
-      <div>
+    <div className="column-flex mt-6">
+      {ids.length > 1 && (
+        <div className="flex flex-row pt-4 pb-4 items-center md:justify-end">
+          <p className="font-semibold pr-1">Show</p>
+          <select
+            name="byPrice"
+            onChange={onSortingChange}
+            className="flex-grow md:flex-grow-0 border"
+          >
+            <option value="sortByCreated↑">new first</option>
+            <option value="sortByCreated↓">old first</option>
+            <option value="sortByPrice↑">dy price ↑</option>
+            <option value="sortByPrice↓">dy price ↓</option>
+            <option value="sortByUpdated↑">recently updated first</option>
+            <option value="sortByCreated↓">lately updated first</option>
+          </select>
+        </div>
+      )}
+      <div className="grid grid-cols-1 gap-4">
         {listings.map(listing => (
           <SingleListing listing={listing} key={`listing-${listing.id}`} />
         ))}
       </div>
-      <div>
-        <br />
-        {pages.map((_, index) => (
-          <button key={`page-${index + 1}`} onClick={() => selectPage(index)}>
-            {index + 1}
-          </button>
-        ))}
+      <div className="grid grid-cols-5 gap-2 pt-8">
+        {pages.length > 1 &&
+          pages.map((_, index) => (
+            <button
+              key={`page-${index + 1}`}
+              onClick={() => selectPage(index)}
+              className={
+                index === selectedPage
+                  ? "cursor-default"
+                  : "border cursor-pointer"
+              }
+              disabled={index === selectedPage}
+            >
+              {index + 1}
+            </button>
+          ))}
       </div>
     </div>
   );

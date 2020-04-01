@@ -1,0 +1,13 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+.test {
+  background-color: red;
+}
+
+.yellow-bg {
+  background: #ffa;
+}

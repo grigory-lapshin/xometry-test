@@ -9,12 +9,12 @@ import { store } from "./store";
 
 function App() {
   return (
-    <div className="App">
-      <StoreContext.Provider value={store}>
+    <StoreContext.Provider value={store}>
+      <div className="container mx-auto p-6 pb-24">
         <Form />
         <Listings />
-      </StoreContext.Provider>
-    </div>
+      </div>
+    </StoreContext.Provider>
   );
 }
 
