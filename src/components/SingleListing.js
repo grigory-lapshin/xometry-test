@@ -1,8 +1,9 @@
 // @flow
 import React from 'react';
 
-// $FlowFixMe
-import { useStoreon } from 'storeon/react';
+import * as Storeon from 'storeon/react';
+
+const { useStoreon }: any = Storeon;
 
 type Props = {
   listing: Listing,
@@ -16,7 +17,7 @@ function SingleListing(props: Props) {
   const { dispatch } = useStoreon('idToEdit');
 
   function editListing() {
-    dispatch('edit', id);
+    dispatch('editId', id);
   }
 
   function deleteListing() {

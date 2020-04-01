@@ -1,4 +1,4 @@
-//@flow
+// @flow
 declare type Listing = {
   id: string,
   title: string,
@@ -6,7 +6,7 @@ declare type Listing = {
   picture: File,
   price: number,
   createdAt: number,
-  updatedAt: number
+  updatedAt: number,
 };
 
 declare type ListingMap = { [id: string]: Listing };

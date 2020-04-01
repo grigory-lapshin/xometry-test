@@ -1,11 +1,12 @@
 // @flow
 import React, { useState, useEffect } from 'react';
 
-// $FlowFixMe;
-import { useStoreon } from 'storeon/react';
+import * as Storeon from 'storeon/react';
 import SingleListing from './SingleListing';
 
-const LISTINGS_PER_PAGE = 2;
+const { useStoreon }: any = Storeon;
+
+const LISTINGS_PER_PAGE = 5;
 
 function createPagesArray(ids) {
   return Array.from({
@@ -52,8 +53,8 @@ function ListingsList() {
 
   function onSortingChange(event) {
     const sortingOrder = event.target.value;
-    const [type, direction] = mapSortingOrderToDispatch(sortingOrder);
-    dispatch(type, direction);
+    const [type, order] = mapSortingOrderToDispatch(sortingOrder);
+    dispatch(type, order);
   }
 
   return (
