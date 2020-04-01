@@ -2,8 +2,11 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
+// $FlowFixMe
 import Modal from "react-modal";
+// $FlowFixMe
 import { Formik, Form, Field } from "formik";
+// $FlowFixMe
 import { useStoreon } from "storeon/react";
 
 Modal.setAppElement("#root");
@@ -147,7 +150,7 @@ function ListingForm() {
               closeForm();
             }}
           >
-            {({ errors, touched, setFieldValue }) => (
+            {({ setFieldValue }) => (
               <Form>
                 <div className="grid grid-cols-1 gap-2 p-4">
                   <Field name="title" validate={validateTitle}>

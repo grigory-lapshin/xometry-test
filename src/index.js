@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import { StoreContext } from "storeon/react";
+
 import Listings from "./ListingsList";
 import Form from "./Form";
 
-import { StoreContext } from "storeon/react";
 import { store } from "./store";
 
 function App() {

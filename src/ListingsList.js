@@ -1,16 +1,15 @@
 // @flow
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
+import React, { useState, useEffect } from 'react';
 
 // $FlowFixMe;
-import { useStoreon } from "storeon/react";
-import SingleListing from "./SingleListing.js";
+import { useStoreon } from 'storeon/react';
+import SingleListing from './SingleListing';
 
 const LISTINGS_PER_PAGE = 2;
 
 function createPagesArray(ids) {
   return Array.from({
-    length: Math.ceil(ids.length / LISTINGS_PER_PAGE)
+    length: Math.ceil(ids.length / LISTINGS_PER_PAGE),
   });
 }
 
@@ -20,16 +19,17 @@ function mapSortingOrderToDispatch(sortingOrder) {
   return [type, direction];
 }
 
+type Store = {
+  dispatch: Function,
+  ids: string[],
+  listingsMap: ListingMap,
+};
+
 function ListingsList() {
-  const {
-    dispatch,
-    ids,
-    listingsMap
-  }: {
-    dispatch: Function,
-    ids: string[],
-    listingsMap: ListingMap
-  } = useStoreon("ids", "listingsMap");
+  const { dispatch, ids, listingsMap } = useStoreon<Store>(
+    'ids',
+    'listingsMap',
+  );
 
   const [pages, setPages] = useState(createPagesArray(ids));
   const [selectedPage, selectPage] = useState(0);
@@ -38,9 +38,9 @@ function ListingsList() {
     return ids
       .slice(
         0 + selectedPage * LISTINGS_PER_PAGE,
-        LISTINGS_PER_PAGE + selectedPage * LISTINGS_PER_PAGE
+        LISTINGS_PER_PAGE + selectedPage * LISTINGS_PER_PAGE,
       )
-      .map(id => listingsMap[id]);
+      .map((id) => listingsMap[id]);
   }
 
   const [listings, setListings] = useState(() => createListingsArray());
@@ -76,7 +76,7 @@ function ListingsList() {
         </div>
       )}
       <div className="grid grid-cols-1 gap-4">
-        {listings.map(listing => (
+        {listings.map((listing) => (
           <SingleListing listing={listing} key={`listing-${listing.id}`} />
         ))}
       </div>
@@ -84,12 +84,13 @@ function ListingsList() {
         {pages.length > 1 &&
           pages.map((_, index) => (
             <button
+              type="button"
               key={`page-${index + 1}`}
               onClick={() => selectPage(index)}
               className={
                 index === selectedPage
-                  ? "cursor-default"
-                  : "border cursor-pointer"
+                  ? 'cursor-default'
+                  : 'border cursor-pointer'
               }
               disabled={index === selectedPage}
             >

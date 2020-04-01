@@ -3,7 +3,7 @@ declare type Listing = {
   id: string,
   title: string,
   description: string,
-  picture: string,
+  picture: File,
   price: number,
   createdAt: number,
   updatedAt: number
